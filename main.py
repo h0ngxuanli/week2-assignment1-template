@@ -7,14 +7,14 @@ To pass, all automated testing of your inputs have to pass their tests.
 
 # This function has a syntax error, no tests will run until this function is
 # fixed first
-#def invalid(prefix="https", domain):
-#    pass
+def invalid(prefix="https"):
+    pass
 
 
 # The following function needs to use variable arguments to work. The developer
 # created this function with a single argument which is breaking the tests. We
 # need this function to change to allow any number of arguments
-def create_urls(domains):
+def create_urls(*domains):
     return [f"https://{domain}/" for domain in domains]
 
 
@@ -23,10 +23,10 @@ def create_urls(domains):
 # argument to be a string. Update the function so that:
 # - It accepts a new keyword argument named `verified` which default to `False`
 # - Changes `metadata` argument to be a variable keyword argument
-def social_media_user(username, metadata):
+def social_media_user(username, verified=False, **metadata):
     information = {
         "username": username,
-        "verified": False
+        "verified": verified
     }
 
     information.update(metadata)
@@ -40,7 +40,7 @@ class Fahrenheit:
     def __init__(self, value):
         self.value = value
 
-    def as_celsius():
+    def as_celsius(self):
         return (self.value - 32) / 1.8
 
 
@@ -50,40 +50,32 @@ class Fahrenheit:
 # - They both inherit from a base class (you must create a new one)
 # - The `verified` and `url` methods come from the base class
 
-class TwitterUser:
-
-    domain = "https://twitter.com"
-
+class SocialMedia():
     def __init__(self, username):
-        self.username = username
-
+        self.username = username       
     def url(self):
         return f"{self.domain}/{self.username}"
-
     def verified(self):
         if self.username:
             return True
         return False
 
-
-class LinkedInUser:
-
-    domain = "https://linkedin.com/in"
-
+class TwitterUser(SocialMedia):
     def __init__(self, username):
-        self.username = username
+        super().__init__(username)
+        self.domain = "https://twitter.com"
 
-    def url(self):
-        return f"{self.domain}/{self.username}"
 
-    def verified(self):
-        if self.username:
-            return True
-        return False
+class LinkedInUser(SocialMedia):
+    def __init__(self, username):
+        super().__init__(username)
+        self.domain = "https://linkedin.com/in"
 
 
 # Import the str_to_bool utility in the utils.py module and use it in the
 # function below, passing the `string` variable to str_to_bool function and
 # return the resulting value.
+
+from utils import str_to_bool
 def convert(string):
-    pass
+    return str_to_bool(string)
